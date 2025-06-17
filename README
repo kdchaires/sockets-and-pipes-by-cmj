@@ -1,0 +1,19 @@
+# 🧵 Sockets and Pipes 
+
+This repository contains my notes, code examples, and exercises as I work through the book  
+**_Sockets and Pipes_** by Chris Martin and Julie Moronuki — a deep dive into functional programming, input/output, and concurrency using **Haskell**.
+
+## 📘 About the Book
+
+## 📂 Repository Structure
+
+```bash
+.
+├── notes/
+│   └── io-notes.md
+├── flake.nix 
+└── README.md
+
+## 📝 Disclaimer
+
+This repo is not affiliated with the book's authors. It's intended purely for educational purposes as I explore and learn from Sockets and Pipes.
