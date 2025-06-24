@@ -21,11 +21,9 @@ This repo is not affiliated with the book's authors. It's intended purely for ed
 ## 📝 Notes
 
 My path is:
-~/.local/share/sockets-and-pipes
 
 Chapter 1: Handles
 
 As we need have comunication between process and operating system, a handle 
 is a an identifier for the conversation.
-
 
