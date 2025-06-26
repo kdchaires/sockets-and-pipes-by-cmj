@@ -26,7 +26,6 @@
             '';
           });
 
-          # This implicitly includes hlint, fourmolu, hoogle and possibly others
           ghc-with-batteries = pkgs.haskell.packages.ghc928.ghcWithHoogle (hpkgs: with hpkgs; [ ]);
         };
         pkgs = import nixpkgs {
@@ -41,6 +40,7 @@
             cabal-install
             ghc-with-batteries
             ghcid
+            fourmolu
           ];
           # Set up a shell hook for environment variables or commands to run on entry
           shellHook = ''
