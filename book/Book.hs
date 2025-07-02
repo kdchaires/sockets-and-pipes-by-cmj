@@ -15,6 +15,8 @@ import Control.Monad.Trans.Resource (
     runResourceT,
  )
 
+import qualified Control.Exception.Safe as Ex
+
 getDataDir :: IO FilePath
 getDataDir = do
     dir <- Dir.getXdgDirectory Dir.XdgData "sockets-and-pipes"
@@ -39,3 +41,36 @@ writeGreetingSafe = runResourceT @IO do
     (_releaseKey, h) <- fileResource (dir </> "greeting.txt") WriteMode
     liftIO (IO.hPutStrLn h "hello")
     liftIO (IO.hPutStrLn h "world")
+
+-- Exercise 2 - Showing handles: Write a program that uses show and hShow
+-- on a few handles to experiment and see the difference between these
+-- two functions’ outputs.
+handlePrintTest :: IO ()
+handlePrintTest = runResourceT @IO do
+    dir <- liftIO getDataDir
+    (_, h) <- fileResource (dir </> "greeting.txt") ReadMode
+    contents <- liftIO (IO.hShow h)
+    putStrLn contents
+    putStrLn $ show h
+
+-- Excercise 3 - Exhaustion: How many file handles can you have open at
+-- once
+howManyHandles :: IO ()
+howManyHandles = runResourceT @IO do
+    hs <- openManyHandles
+    putStrLn ("Opened" <> show (length hs) <> "handles")
+
+openManyHandles :: ResourceT IO [Handle]
+openManyHandles = _
+
+fileResourceMaybe :: ResourceT IO (Maybe Handle)
+fileResourceMaybe = do
+    dir <- liftIO getDataDir
+    result <- Ex.tryIO do
+        (_, h) <- fileResource (dir </> "greeting.txt") ReadMode
+        pure $ Just h
+    case result of
+        Right x -> pure x
+        Left e -> do
+            print (displayException e)
+            pure Nothing
